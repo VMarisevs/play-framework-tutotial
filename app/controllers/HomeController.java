@@ -1,7 +1,9 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -25,5 +27,17 @@ public class HomeController extends Controller {
     result.put("exampleField1", "foobar");
     result.put("exampleField2", "Hello world!");
     return ok(result);
+  }
+
+
+  @BodyParser.Of(BodyParser.Json.class)
+  public Result createPerson() {
+    JsonNode json = request().body().asJson();
+    String name = json.findPath("name").textValue();
+    if (name == null) {
+      return badRequest("Missing parameter [name]");
+    } else {
+      return ok("Hello " + name);
+    }
   }
 }
