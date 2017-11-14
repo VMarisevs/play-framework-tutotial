@@ -13,6 +13,8 @@ tmp/
 test-result
 server.pid
 *.eml
+*.ipr
+*.iws
 /dist/
 .cache
 /.idea
