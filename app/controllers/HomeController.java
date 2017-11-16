@@ -18,7 +18,13 @@ public class HomeController extends Controller {
    * <code>GET</code> request with a path of <code>/</code>.
    */
   public Result index() {
-    return ok();
+    ObjectNode result = Json.newObject();
+    result.put("/", "end point description");
+    result.put("/hello", "basic json response examle");
+    result.set("/person", Json.newObject()
+            .put("GET", "get a list of persons")
+            .put("POST","create a new person"));
+    return ok(result);
   }
 
 
