@@ -3,6 +3,8 @@ package controllers;
 import static play.libs.Json.toJson;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
@@ -26,11 +28,11 @@ public class PersonController extends Controller {
   }
 
   public CompletionStage<Result> addPerson() {
-    JsonNode json = request().body().asJson();
+    JsonNode json = Optional.ofNullable(request().body().asJson()).orElseThrow(() -> new IllegalArgumentException("Cannot create new person with null value"));
 
     Person person = Json.fromJson(json, Person.class);
 
-    return personRepository.add(person).thenApplyAsync(p -> ok(), ec.current());
+    return personRepository.add(person).thenApplyAsync(p -> ok(toJson(p)), ec.current());
   }
 
   public CompletionStage<Result> getPersons() {
