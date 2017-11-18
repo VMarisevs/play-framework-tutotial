@@ -1,0 +1,152 @@
+{
+	"info": {
+		"name": "Sandbox Play",
+		"_postman_id": "afcd58dc-bb72-3906-d7fc-41b880c574f0",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "repository",
+			"description": "",
+			"item": [
+				{
+					"name": "get person list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:9000/person",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"person"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[error null] create new null person",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:9000/person",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"person"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "create new person",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"name\" : \"Vladislavs\",\n \"surname\" : \"Marisevs\"\n}"
+						},
+						"url": {
+							"raw": "localhost:9000/person",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"person"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "create new pet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"owner\" : 1,\n \"name\" : \"Fluffy\",\n \"dob\" : \"1999-12-12\"\n}"
+						},
+						"url": {
+							"raw": "localhost:9000/pet",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"pet"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:9000/",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						""
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "hello json endpoint",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:9000/hello",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"hello"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
