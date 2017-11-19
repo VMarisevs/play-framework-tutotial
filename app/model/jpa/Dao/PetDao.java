@@ -1,38 +1,45 @@
 package model.jpa.Dao;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import model.Pet;
-import model.jpa.DatabaseExecutionContext;
-import play.api.Play;
-import play.db.jpa.JPA;
-import play.db.jpa.JPAApi;
-import play.db.jpa.Transactional;
+import play.db.Database;
 
 public class PetDao {
 
-//  private final JPAApi jpa;
-//  private final DatabaseExecutionContext executionContext;
-//
-//  @Inject
-//  public PetDao(JPAApi jpa, DatabaseExecutionContext executionContext) {
-//    this.jpa = jpa;
-//    this.executionContext = executionContext;
-//  }
+  private static final String INSERT_PET_QUERY = "INSERT INTO pet (owner,name,dob) VALUES (?,?,?)";
+  private static final String FIND_OWNER_QUERY = "SELECT id FROM person WHERE id = ? ";
 
-  @Transactional
-  public boolean addPet(Pet pet) {
-    JPAApi jpa = Play.current().injector().instanceOf(JPAApi.class);
+  private final Database db;
 
-    jpa.em().persist(pet);
+  @Inject
+  public PetDao(Database db) {
+    this.db = db;
+  }
 
-//    EntityManager em = jpa.em();
-//
-//    em.getTransaction().begin();
-//    em.persist(pet);
-//    em.getTransaction().commit();
-//    em.close();
+  public void addPet(Pet pet) throws SQLException {
 
-    return true;
+    try(Connection connection = db.getConnection()){
+      validateOwner(connection,pet.getOwner());
+
+      PreparedStatement statement = connection.prepareStatement(INSERT_PET_QUERY);
+      statement.setLong(1,pet.getOwner());
+      statement.setString(2, pet.getName());
+      statement.setDate(3, Date.valueOf(pet.getDob()));
+
+      statement.executeUpdate();
+    }
+  }
+
+  private void validateOwner(Connection connection, Long ownerId) throws SQLException {
+    PreparedStatement statement = connection.prepareStatement(FIND_OWNER_QUERY);
+    statement.setLong(1, ownerId);
+    ResultSet result = statement.executeQuery();
+    if (!result.next()) throw new SQLException("Owner doesn't exist.");
   }
 }

@@ -32,7 +32,7 @@ public class PersonController extends Controller {
 
     Person person = Json.fromJson(json, Person.class);
 
-    return personRepository.add(person).thenApplyAsync(p -> ok(toJson(p)), ec.current());
+    return personRepository.add(person).thenApplyAsync(p -> created(toJson(p)), ec.current());
   }
 
   public CompletionStage<Result> getPersons() {

@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
@@ -20,7 +21,7 @@ public class PetController extends Controller {
   @Inject
   private HttpExecutionContext ec;
 
-  public Result addPet() {
+  public Result addPet() throws SQLException {
     JsonNode json = Optional.ofNullable(request().body().asJson()).orElseThrow(
         () -> new IllegalArgumentException("Cannot create new person with null value"));
 
@@ -28,6 +29,6 @@ public class PetController extends Controller {
 
     petDao.addPet(pet);
 
-    return ok();
+    return created();
   }
 }
